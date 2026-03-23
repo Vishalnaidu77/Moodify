@@ -1,6 +1,7 @@
 import { userModel } from "../models/user.model.js";
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { blacklistModel } from "../models/blacklist.model.js";
 
 export async function registerController(req, res) {
     const { username, email, password } = req.body;
@@ -21,8 +22,8 @@ export async function registerController(req, res) {
     const hash = await bcrypt.hash(password, 10)
 
     const user = await userModel.create({
-        username: username,
-        email: email,
+        username,
+        email,
         password: hash
     })
 
@@ -46,12 +47,12 @@ export async function registerController(req, res) {
 export async function loginController(req, res) {
     const { email, password } = req.body;
 
-    const user = await userModel.fineOne({
+    const user = await userModel.findOne({
         $or: [
             { email: email },
             { username: email }
         ]
-    })
+    }).select("+password")
 
     if(!user){
         return res.status(400).json({
@@ -81,5 +82,43 @@ export async function loginController(req, res) {
             username: user.username,
             email: user.email
         }
+    })
+}
+
+export async function logoutController(req, res){
+    const user = req.user
+    const token = req.cookies.token
+
+    if(!user){
+        return res.status(401).json({
+            message: "Invalid credentials"
+        })
+    }
+
+    res.clearCookie('token')
+
+    await blacklistModel.create({
+        token
+    })
+
+    res.status(200).json({
+        message: "User logged out"
+    })
+}
+
+
+export async function getMeController(req, res) {
+    const userId = req.user.id
+
+    const user = await userModel.findById(userId)
+    if(!user){
+        return res.status(401).json({
+            message: "Invalid credentials"
+        })
+    }
+
+    res.status(200).json({
+        message: "Get user",
+        user
     })
 }
