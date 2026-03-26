@@ -3,13 +3,15 @@ import Login from './features/auth/pages/Login'
 import Home from './pages/Home'
 import Register from './features/auth/pages/Register'
 import './features/shared/styles/global.scss'
+import AuthContext from './features/auth/AuthContext'
+import Protected from './features/auth/component/Protected'
 
 const App = () => {
 
   const router = createBrowserRouter([
       {
         path: '/',
-        element: <Home />
+        element: <Protected><Home /></Protected>
       },
       {
         path: '/login',
@@ -22,7 +24,9 @@ const App = () => {
   ])
 
   return (
-    <RouterProvider router={router} />
+    <AuthContext>
+      <RouterProvider router={router} />
+    </AuthContext>
   )
 }
 

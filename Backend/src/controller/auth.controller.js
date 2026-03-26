@@ -46,12 +46,12 @@ export async function registerController(req, res) {
 }
 
 export async function loginController(req, res) {
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
     const user = await userModel.findOne({
         $or: [
             { email: email },
-            { username: email }
+            { username: username }
         ]
     }).select("+password")
 
