@@ -1,10 +1,11 @@
 import { createBrowserRouter, Route, RouterProvider } from 'react-router-dom'
 import Login from './features/auth/pages/Login'
-import Home from './pages/Home'
 import Register from './features/auth/pages/Register'
 import './features/shared/styles/global.scss'
 import AuthContext from './features/auth/AuthContext'
 import Protected from './features/auth/component/Protected'
+import Home from './home/pages/Home'
+import SongContext from './home/SongContext'
 
 const App = () => {
 
@@ -25,7 +26,9 @@ const App = () => {
 
   return (
     <AuthContext>
-      <RouterProvider router={router} />
+      <SongContext>
+        <RouterProvider router={router} />
+      </SongContext>
     </AuthContext>
   )
 }

@@ -1,0 +1,142 @@
+.player-card {
+  width: min(100%, 460px);
+  padding: 1.4rem;
+  display: grid;
+  gap: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top, rgba(255, 142, 83, 0.22), transparent 45%),
+    linear-gradient(160deg, rgba(18, 22, 35, 0.96), rgba(42, 20, 33, 0.92));
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+}
+
+.player-card__artwork-shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.player-card__artwork-shell::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.45));
+}
+
+.player-card__artwork {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.player-card__artwork--placeholder {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, rgba(255, 143, 93, 0.24), rgba(255, 82, 99, 0.18));
+  color: rgba(245, 245, 245, 0.78);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.player-card__content {
+  display: grid;
+  gap: 1rem;
+}
+
+.player-card__header {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.player-card__header h2 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  line-height: 1.1;
+}
+
+.player-card__eyebrow,
+.player-card__meta,
+.player-card__hint,
+.player-card__pill span {
+  color: rgba(245, 245, 245, 0.74);
+}
+
+.player-card__eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+}
+
+.player-card__meta {
+  margin: 0.45rem 0 0;
+}
+
+.player-card__details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.player-card__pill {
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.player-card__pill strong {
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.player-card__actions {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.player-card__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  padding: 0.95rem 1rem;
+  background: linear-gradient(135deg, #ff8f5d, #ff5263);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.player-card__link:hover {
+  transform: translateY(-1px);
+}
+
+.player-card__link--disabled {
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.player-card__hint {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .player-card {
+    padding: 1rem;
+    border-radius: 22px;
+  }
+
+  .player-card__details {
+    grid-template-columns: 1fr;
+  }
+}

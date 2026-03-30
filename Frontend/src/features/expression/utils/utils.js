@@ -24,8 +24,6 @@ export const init = async ({ faceLandmarkerRef, videoRef, streamRef}) => {
       videoRef.current.srcObject = streamRef.current;
       await videoRef.current.play();
     }
-
-    detectLoop();
 };
 
 export const detectLoop = ({ faceLandmarkerRef, videoRef, setExpression }) => {
@@ -46,8 +44,10 @@ export const detectLoop = ({ faceLandmarkerRef, videoRef, setExpression }) => {
       const blendshapes =
         results.faceBlendshapes[0].categories;
 
-      interpretExpression(blendshapes, setExpression);
+      return interpretExpression(blendshapes, setExpression);
     }
+
+    return null;
 };
 
 const interpretExpression = (blendshapes, setExpression) => {
@@ -65,21 +65,23 @@ const interpretExpression = (blendshapes, setExpression) => {
 
     const mouthOpen = getScore("jawOpen");
 
-    const sad = (getScore("frownLeft" > 0.5) + getScore("frownRight" > 0.5)) / 2
+    const sad =
+      (getScore("mouthFrownLeft") + getScore("mouthFrownRight")) / 2
 
-      console.log(smile, mouthOpen);
+   let currentExpression = "neutral"
 
 
     if (blink > 0.6) {
-      setExpression("😉 Blink");
+      currentExpression = "blink";
     } else if (mouthOpen > 0.2) {
-      setExpression("😮 Surprise");
+      currentExpression = "surprise";
     } else if (smile > 0.2) {
-      setExpression("😄 Happy");
+      currentExpression = "happy";
     } else if(sad > 0.2) {
-      setExpression("☹️ Sad")
-    } 
-    else {
-      setExpression("😐 Neutral");
+      currentExpression = "sad"
     }
+
+    setExpression(currentExpression)
+
+    return currentExpression
 };

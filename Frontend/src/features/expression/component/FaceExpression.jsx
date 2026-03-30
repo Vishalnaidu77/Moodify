@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { detectLoop, init } from "../utils/utils";
 
-function FaceExpression() {
+function FaceExpression({ onClick = () => { }}) {
   const videoRef = useRef(null);
   const [expression, setExpression] = useState("Detecting...");
   const streamRef = useRef(null);
@@ -20,6 +20,11 @@ function FaceExpression() {
     };
   }, []);
 
+  async function handleClick(){
+    const detectedExpression = detectLoop({ faceLandmarkerRef, videoRef, setExpression })
+    onClick(detectedExpression || expression)
+  }
+
   return (
     <div style={{ textAlign: "center" }}>
       <h2>Face Expression Detection</h2>
@@ -36,7 +41,7 @@ function FaceExpression() {
       <h3 style={{ marginTop: "10px" }}>
         Expression: {expression}
       </h3>
-      <button onClick={() => (detectLoop({ faceLandmarkerRef, videoRef, setExpression}))}>Detect Expression</button>
+      <button onClick={handleClick}>Detect Expression</button>
     </div>
   );
 }
