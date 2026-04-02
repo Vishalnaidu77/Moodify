@@ -6,6 +6,7 @@ import AuthContext from './features/auth/AuthContext'
 import Protected from './features/auth/component/Protected'
 import Home from './home/pages/Home'
 import SongContext from './home/SongContext'
+import SpotifyCallback from './home/pages/SpotifyCallback'
 
 const App = () => {
 
@@ -21,6 +22,10 @@ const App = () => {
       {
         path: '/register',
         element: <Register />
+      },
+      {
+        path: 'spotify-callback',
+        element: <SpotifyCallback />
       }
   ])
 

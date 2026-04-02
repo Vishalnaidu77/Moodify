@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import FaceExpression from '../../features/expression/component/FaceExpression'
 import Player from '../components/Player'
 import useSong from '../hooks/useSong'
 import './home.scss'
+import { loginWithSpotify } from '../services/spotifyAuth'
 
 const Home = () => {
   const {
@@ -14,8 +16,12 @@ const Home = () => {
     error
   } = useSong()
 
+
   return (
     <main className="home-layout">
+      <button type='button' onClick={loginWithSpotify}>
+        Connect spotify
+      </button>
       <FaceExpression onClick={handleGetSongBasedOnMood} />
 
       <section className="home-layout__music">

@@ -13,7 +13,7 @@ export const init = async ({ faceLandmarkerRef, videoRef, streamRef}) => {
         },
         runningMode: "VIDEO",
         numFaces: 1,
-        outputFaceBlendshapes: true, // 🔥 important
+        outputFaceBlendshapes: true, 
       });
 
     streamRef.current = await navigator.mediaDevices.getUserMedia({
