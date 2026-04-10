@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { exchangeCodeForToken } from '../services/spotifyAuth'
 
 const SpotifyCallback = () => {
 
@@ -18,6 +19,16 @@ const SpotifyCallback = () => {
 
         if(code){
             localStorage.setItem('spotify_auth_code', code)
+            exchangeCodeForToken(code)
+            .then(() => {
+                navigate("/login")
+            })
+            .catch((err) => {
+                console.error("Token exchange failed:", err);
+                navigate("/login")
+            })
+
+            return
         }
 
         navigate('/')

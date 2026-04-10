@@ -4,6 +4,7 @@ import Player from '../components/Player'
 import useSong from '../hooks/useSong'
 import './home.scss'
 import { loginWithSpotify } from '../services/spotifyAuth'
+import useSpotifyPlayer from '../hooks/useSpotifyPlayer'
 
 const Home = () => {
   const {
@@ -16,9 +17,16 @@ const Home = () => {
     error
   } = useSong()
 
+  const { deviceId, isReady, spotifyError } = useSpotifyPlayer()
+
 
   return (
     <main className="home-layout">
+      <div>
+        <p>Spotify Ready: {isReady ? 'Yes' : 'No'}</p>
+        <p>Spotify device: { deviceId || 'Not ready yet'}</p>
+        <p>Spotify error: {spotifyError || 'none'}</p>
+      </div>
       <button type='button' onClick={loginWithSpotify}>
         Connect spotify
       </button>

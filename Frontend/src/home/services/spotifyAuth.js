@@ -42,3 +42,35 @@ export async function loginWithSpotify() {
 
     window.location.href = authUrl.toString()
 }
+
+export async function exchangeCodeForToken(code){
+    const codeVerifier = localStorage.getItem('spotify_code_verifier')
+
+    const res = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            client_id: clientId,
+            grant_type: 'authorization_code',
+            code,
+            redirect_uri: redirectUri,
+            code_verifier: codeVerifier
+        })
+    })
+
+    const data = await res.json()
+
+    if(!res.ok){
+        throw new Error(data.error_description || 'Failed to exchange code for token')
+    }
+
+    localStorage.setItem('spotify_access_token', data.access_token)
+
+    if (data.refresh_token) {
+        localStorage.setItem('spotify_refresh_token', data.refresh_token)
+    }
+
+    return data
+}
