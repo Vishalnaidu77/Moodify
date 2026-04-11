@@ -1,5 +1,11 @@
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID
-const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI
+const getRedirectUri = () => {
+    if (typeof window === 'undefined') {
+        return import.meta.env.VITE_SPOTIFY_REDIRECT_URI
+    }
+
+    return new URL('/spotify-callback', window.location.origin).toString()
+}
 
 const scopes = ['streaming', 'user-read-email', 'user-read-private', 'user-modify-playback-state', 'user-read-playback-state']
 
@@ -24,6 +30,7 @@ const base64encode = (input) => {
 }
 
 export async function loginWithSpotify() {
+    const redirectUri = getRedirectUri()
     const codeVerifier = generateRandomString(64)
     const hashed = await sha256(codeVerifier)
     const codeChallenge = base64encode(hashed)
@@ -44,6 +51,7 @@ export async function loginWithSpotify() {
 }
 
 export async function exchangeCodeForToken(code){
+    const redirectUri = getRedirectUri()
     const codeVerifier = localStorage.getItem('spotify_code_verifier')
 
     const res = await fetch('https://accounts.spotify.com/api/token', {

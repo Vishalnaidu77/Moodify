@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { getApiBaseUrl } from '../../features/shared/apiBaseUrl'
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api/songs'
+  baseURL: getApiBaseUrl('/api/songs')
 })
 
 export async function getSongsByMood(mood) {

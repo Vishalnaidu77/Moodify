@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { getApiBaseUrl } from '../../shared/apiBaseUrl'
 
 const api = axios.create({
-    baseURL: 'http://localhost:3000/api/auth',
+    baseURL: getApiBaseUrl('/api/auth'),
     withCredentials: true
 })
 
